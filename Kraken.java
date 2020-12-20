@@ -1,4 +1,5 @@
 package kraken;
+
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -8,7 +9,6 @@ public class Kraken {
 	private static HttpURLConnection connection;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		BufferedReader reader;
 		String line;
@@ -25,7 +25,7 @@ public class Kraken {
 			connection.setReadTimeout(5000);
 			
 			int status = connection.getResponseCode();
-			System.out.println(status);
+			//System.out.println(status);
 			
 			if(status > 299) {
 				reader = new BufferedReader(new InputStreamReader(connection.getErrorStream())); //READER
@@ -41,25 +41,34 @@ public class Kraken {
 				reader.close();
 			}
 			
-			System.out.println();
-			System.out.println(responseContent.toString());
+			//System.out.println(responseContent.toString());
+			System.out.println(getxbtvalue(responseContent.toString()));
 			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			connection.disconnect();
 		}
 	}
 	
-	//public static String parse(String responseBody) {
-		//JSONArray albums = new JSONArray(responseBody);
+	public static String getxbtvalue(String responseBody) {
+		char[] responseArray = new char[responseBody.length()];
+		String value = "";
 		
-	//}
-	
-	
-
+		for (int i = 0; i < responseBody.length(); i++) { 
+            responseArray[i] = responseBody.charAt(i); 
+        } 
+		
+		for (int i = 0; i < responseBody.length(); i++) {
+			if(responseArray[i] == 'a') {
+				for (int j = i + 5; j < i + 13; j++) {
+					value += responseArray[j];
+				}
+				break;
+			}
+		}	
+		return value;
+	}
 }
