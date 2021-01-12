@@ -1,4 +1,4 @@
-package kraken;
+package KrakenAPI;
 
 import java.net.*;
 import java.io.*;
@@ -9,8 +9,6 @@ public class Kraken {
 	private static HttpURLConnection connection;
 
 	public static String krakenConnect() {
-		
-		System.out.println("TEST");
 		
 		BufferedReader reader;
 		String line;
@@ -27,7 +25,6 @@ public class Kraken {
 			connection.setReadTimeout(5000);
 
 			int status = connection.getResponseCode();
-			// System.out.println(status);
 
 			if (status > 299) {
 				reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -42,7 +39,6 @@ public class Kraken {
 				}
 				reader.close();
 			}
-			// System.out.println(responseContent.toString());
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -52,7 +48,7 @@ public class Kraken {
 			connection.disconnect();
 		}
 
-		return "XBT: " + getxbtvalue(responseContent.toString()) + " USD";
+		return getxbtvalue(responseContent.toString());
 
 	}
 
